@@ -45,3 +45,11 @@ def create_currency():
         return jsonify({
             'message': 'Invalid data request', 'errors': errors
         }), 400
+
+
+@currency_bp.route('/currencies', methods=['GET'])
+def get_currencies():
+    currencies = Currency.query.all()
+    currency_list = [currency.to_dict() for currency in currencies]
+
+    return jsonify(currency_list), 200
