@@ -12,4 +12,7 @@ def create_app():
 
     register_routes(app)
 
+    with app.app_context():
+        db.create_all()
+
     return app

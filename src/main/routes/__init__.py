@@ -1,7 +1,7 @@
-from src.main.routes.hello_world import hello_bp
+from src.main.routes.currency import currency_bp
 
 
 def register_routes(app):
-    app.register_blueprint(hello_bp)
+    app.register_blueprint(currency_bp)
 
     return app
