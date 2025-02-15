@@ -60,3 +60,15 @@ class ExchangeRate(db.Model):
         db.session.commit()
 
         return exchange_rate, None
+
+    @classmethod
+    def delete_old_exchange_rates(cls):
+        period_start_date = date.today() - timedelta(days=29)
+
+        deleted_count = db.session.query(ExchangeRate).filter(
+            ExchangeRate.date <= period_start_date
+        ).delete(synchronize_session="fetch")
+
+        db.session.commit()
+
+        return deleted_count

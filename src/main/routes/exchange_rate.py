@@ -44,3 +44,12 @@ def update_exchange_rate(exchange_rate_id):
     except ValidationError as e:
         return jsonify({'error': e.errors()}), 400
 
+
+@exchange_rate_bp.route('/exchange-rates/old', methods=['DELETE'])
+def delete_old_exchange_rates():
+    deleted_exchange_rates_count = ExchangeRate.delete_old_exchange_rates()
+
+    if deleted_exchange_rates_count == 0:
+        return jsonify({'message': 'No exchange rates older than 30 days found'}), 200
+
+    return jsonify({'message': f'{deleted_exchange_rates_count} exchange rates older than 30 days were deleted'}), 200
