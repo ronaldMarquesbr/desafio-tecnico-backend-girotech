@@ -28,3 +28,12 @@ def create_investor():
             "error": e.errors()
         }), 400
 
+
+@investor_bp.route('/investor/<int:investor_id>', methods=['DELETE'])
+def remove_investor(investor_id):
+    error = Investor.remove_investor(investor_id=investor_id)
+
+    if error:
+        return jsonify({'error': error}), 404
+
+    return jsonify({"message": "Investor deleted successfully"}), 200
