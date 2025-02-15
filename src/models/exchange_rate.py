@@ -1,5 +1,6 @@
 from sqlalchemy import func
 from datetime import date, timedelta
+from src.models.currency import Currency
 from src.drivers.database import db
 
 
@@ -31,3 +32,31 @@ class ExchangeRate(db.Model):
         recent_exchange_rates = [exchange_rate.to_dict() for exchange_rate in exchange_rates]
 
         return recent_exchange_rates
+
+    @classmethod
+    def update_exchange_rate(cls, exchange_rate_id, data):
+        exchange_rate = cls.query.get(exchange_rate_id)
+
+        if not exchange_rate:
+            return None, "Exchange rate not found"
+
+        if data.date:
+            exchange_rate.date = data.date
+
+        if data.daily_variation:
+            exchange_rate.daily_variation = data.daily_variation
+
+        if data.daily_rate:
+            exchange_rate.daily_rate = data.daily_rate
+
+        if data.currency_id:
+            new_currency = Currency.query.get(data.currency_id)
+
+            if not new_currency:
+                return None, "Currency not found"
+
+            exchange_rate.currency_id = new_currency.id
+
+        db.session.commit()
+
+        return exchange_rate, None
