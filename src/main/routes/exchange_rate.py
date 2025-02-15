@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from pydantic import ValidationError
 from src.main.factories.exchange_rate import exchange_rate_factory
 from src.main.schemas.exchange_rate import ExchangeRateBase
+from src.models.exchange_rate import ExchangeRate
 
 
 exchange_rate_bp = Blueprint('exchange_rate', __name__)
@@ -20,3 +21,10 @@ def create_exchange_rate():
         return jsonify({
             'error': e.errors()
         }), 400
+
+
+@exchange_rate_bp.route('/exchange-rates/recent', methods=['GET'])
+def get_recent_exchange_rates():
+    recent_exchange_rates = ExchangeRate.get_recent_exchange_rates()
+
+    return jsonify(recent_exchange_rates)
