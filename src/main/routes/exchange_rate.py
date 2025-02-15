@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from pydantic import ValidationError
-from src.main.factories.exchange_rate import exchange_rate_factory
+from src.main.factories.exchange_rate_factory import exchange_rate_factory
 from src.main.schemas.exchange_rate import ExchangeRateBase, ExchangeRateUpdateBase
 from src.models.exchange_rate import ExchangeRate
 
