@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from src.main.factories.exchange_rate_factory import exchange_rate_factory
 from src.main.schemas.exchange_rate import ExchangeRateBase, ExchangeRateUpdateBase
 from src.models.exchange_rate import ExchangeRate
+from src.models.currency import Currency
 
 
 exchange_rate_bp = Blueprint('exchange_rate', __name__)
@@ -12,6 +13,11 @@ exchange_rate_bp = Blueprint('exchange_rate', __name__)
 def create_exchange_rate():
     try:
         exchange_rate_data = ExchangeRateBase(**request.json)
+
+        is_valid_currency_id = Currency.query.filter_by(id=exchange_rate_data.currency_id).scalar() is not None
+
+        if not is_valid_currency_id:
+            return jsonify({'error': 'Currency id does not exist'}), 404
 
         exchange_rate = exchange_rate_factory(exchange_rate_data)
 
