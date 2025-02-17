@@ -17,7 +17,7 @@ class InvestmentHistory(db.Model):
         return {
             'id': self.id,
             'initial_amount': self.initial_amount,
-            'months': self.id,
+            'months': self.months,
             'interest_rate': self.interest_rate,
             'final_amount': self.final_amount,
             'currency_id': self.currency_id,
