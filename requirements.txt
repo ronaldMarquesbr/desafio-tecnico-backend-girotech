@@ -3,3 +3,4 @@ Flask-SQLAlchemy
 sqlalchemy
 pydantic
 email-validator
+pytest
